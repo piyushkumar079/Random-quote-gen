@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+</head>
+
+<body>
+    <div class="parent">
+        <div class="box">
+            <div class="quote"></div>
+            <div class="author"></div>
+        </div>
+        <div class="btn"><button>Generate Quote</button></div>
+    </div>
+</body>
+
+</html>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+
+    .parent {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #5F8670;
+        flex-direction: column;
+    }
+
+
+    button {
+        border-radius: 8px;
+        border: none;
+        margin-top: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 20px;
+        padding: 15px 60px;
+        text-align: center;
+        transition: 200ms;
+        background-color: #FF9800;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    .box {
+        min-height: 40vh;
+        width: 60%;
+        border-radius: 10px;
+        background-color: white;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        font-size: 2rem;
+    }
+
+    .author {
+        text-wrap: nowrap;
+        text-align: right;
+        margin-top: 5px;
+        margin-left: 50px;
+        animation: hah 2s 1;
+    }
+
+</style>
+
+<script>
+
+
+    const btn = document.querySelector("button");
+    const quote = document.querySelector(".quote");
+    const author = document.querySelector(".author");
+    const url = "https://dummyjson.com/quotes/random"
+
+
+    generateQuote = async () => {
+        try {
+            btn.disabled=true
+            const response = await fetch(url);
+            const quoteJson = await response.json()
+            // console.log(quoteJson)
+            quote.textContent = `${quoteJson.quote}`
+            author.textContent = `- by ${quoteJson.author}`
+            btn.disabled=false
+        }
+        catch (error) {
+            quote.parentElement.textContent = `An error occured...${error.message}` 
+            // console.log(error)
+        }
+    }
+
+    generateQuote();
+    btn.addEventListener("click", () => {
+        generateQuote();
+    })
+
+
+</script>
